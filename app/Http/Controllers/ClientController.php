@@ -13,6 +13,11 @@ class ClientController extends Controller
      */
     public function index()
     {
+
+        if ( auth()->user()->can('clients:list') ) {
+            return ApiResponse::unauthorized();
+        }
+
         return ApiResponse::success(Client::all());
     }
 
@@ -37,6 +42,10 @@ class ClientController extends Controller
      */
     public function show(string $id)
     {
+        if ( auth()->user()->can('clients:detail') ) {
+            return ApiResponse::unauthorized();
+        }
+
         $client = CLient::find($id);
 
         if( $client ) {
